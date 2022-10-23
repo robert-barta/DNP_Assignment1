@@ -30,4 +30,36 @@ public class PostsController:ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+    
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<User>>> GetAsync([FromQuery] string? Title)
+    {
+        try
+        {
+            SearchPostParametersDto parameters = new ();
+            IEnumerable<Post> posts = await PostLogic.GetAsync(parameters);
+            return Ok(posts);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<User>>> GetAsyncPost([FromQuery] string? Title)
+    {
+        try
+        {
+            SearchPostParametersDto parameters = new ();
+            IEnumerable<Post> posts = await PostLogic.GetAsync(parameters);
+            return Ok(posts);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
 }
