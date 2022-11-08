@@ -28,6 +28,7 @@ public class PostFileDao:IPostDao
         context.SaveChanges();
         return Task.FromResult(post);
     }
+    
 
     public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParameters)
     {
@@ -35,6 +36,7 @@ public class PostFileDao:IPostDao
 
         return Task.FromResult(posts);
     }
+    
 
     public Task<IEnumerable<Post>> GetAsync(PostReadingDto postReadingDto)
     {
@@ -46,4 +48,8 @@ public class PostFileDao:IPostDao
         }
         return Task.FromResult(posts);
     }
+
+  
+    
+    
 }
