@@ -49,7 +49,28 @@ public class PostFileDao:IPostDao
         return Task.FromResult(posts);
     }
 
-  
+    public Task<IEnumerable<Post>> GetAllPostsAsync()
+    {
+        IEnumerable<Post> posts = context.Posts.AsEnumerable();
+        posts = context.Posts;
+        return Task.FromResult(posts);
+    }
     
-    
+    public Task<Post?> GetByTitleAsync(string title)
+    {
+        Post? existing = context.Posts.FirstOrDefault
+            (p => p.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+        return Task.FromResult(existing);
+    }
+
+    public Task<IEnumerable<string>> GetAllByTitleAsync()
+    {
+        var list = new List<string>();
+        foreach (var contextPost in context.Posts)
+        {
+            list.Add(contextPost.Title);
+        }
+
+        return Task.FromResult(list.AsEnumerable());
+    }
 }

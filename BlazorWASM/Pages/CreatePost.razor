@@ -1,0 +1,75 @@
+﻿@page "/CreatePost"
+@using global::Shared.DTOs
+@using HttpClients.ClientInterfaces
+@using global::Shared
+@using System.ComponentModel
+@using System.Collections.ObjectModel
+@inject IPostService PostService
+@inject IUserService UserService
+@inject NavigationManager navMgr
+@attribute [Authorize]
+<h3>CreatePost</h3>
+
+<AuthorizeView>
+    <Authorized>
+    <div class="card">
+
+
+        <h3>Create a Post</h3>
+        <div class="form-group field">
+            <label>Title:</label>
+            <input type="text" @bind="postTitle" @bind:event="oninput"/>
+        </div>
+        <div class="form-group field">
+            <label>Body: </label>
+            <input type="text" @bind="postBody" @bind:event="oninput"/>
+        </div>
+
+        <div class="button-row">
+            @if (!string.IsNullOrEmpty(msg))
+            {
+                <label style="color: red">@msg</label>
+            }
+            <button @onclick="Create" @onmousedown=@(() => SetUsername(@context.User.Identity!.Name)) disabled="@(string.IsNullOrEmpty(title))" class="acceptbtn">Create</button>
+        </div>
+    </div>
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+
+    private string username = "";
+    private string postTitle = "";
+    private string postBody = "";
+    private string msg = ""; 
+    private string color = "";
+    private string title = "";
+    private string body = "";
+    
+
+    private async Task Create()
+    {
+        msg = "";
+        try
+        {
+            await PostService.CreateAsync(new PostCreationDto(title, body, username));
+            msg = "Post successfully created.";
+            color = "green";
+            title = "";
+            body = "";
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+            color = "red";
+        }
+    
+    }
+
+    private void SetUsername(string? username)
+    {
+        this.username = username;
+    }
+}

@@ -34,14 +34,44 @@ public class PostsController:ControllerBase
     
     
     [HttpGet]
-    [Route("/get")]
-    
-    public async Task<ActionResult<IEnumerable<User>>> GetAsyncPost([FromQuery] string? Title)
+    public async Task<ActionResult<IEnumerable<User>>> GetAllAsync()
     {
         try
         {
-            SearchPostParametersDto parameters = new ();
-            IEnumerable<Post> posts = await PostLogic.GetAsync(parameters);
+            
+            IEnumerable<Post> posts = await PostLogic.GetAllPostsAsync();
+            return Ok(posts);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    [HttpGet]
+    [Route("/title")]
+    public async Task<ActionResult<Post>> GetByTitleAsync([FromQuery] string title)
+    {
+        try
+        {
+            Post post = await PostLogic.GetByTitleAsync(title);
+            return Ok(post);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    [HttpGet]
+    [Route("/titles")]
+    public async Task<ActionResult<IEnumerable<string>>> GetAllByTitleAsync()
+    {
+        try
+        {
+            IEnumerable<string> posts= await PostLogic.GetAllTitlesAsync();
             return Ok(posts);
         }
         catch (Exception e)

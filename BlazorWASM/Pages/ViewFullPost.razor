@@ -1,0 +1,42 @@
+﻿@page "/ViewFullPost/{title}"
+@using HttpClients.ClientInterfaces
+@using global::Shared
+@inject IPostService PostService
+
+<h3>Read @Title</h3>
+
+ <div class="card">
+        <div class="card-title d-flex justify-content-between">
+            <h6>@Title</h6>
+            <div>
+                <label class="text-sm">Username: @username</label>
+            </div>
+        </div>
+        <div class="body">
+            @body
+        </div>
+    </div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+    private string body="";
+    private string username="";
+    private string msg;
+
+    protected override async Task OnInitializedAsync()
+    {
+        msg = "";
+        try
+        {
+            Post post = await PostService.GetByTitleAsync(Title);
+            body = post.Body;
+            username = post.Owner.UserName;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = "";
+        }
+    }
+}

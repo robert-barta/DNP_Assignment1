@@ -7,10 +7,10 @@ public class Post
     public String Title { get; }
     public String Body { get; set; }
 
-    public Post(User owner, string title, string body)
+    public Post(User owner, string title)
     {
         Owner = owner;
         Title = title;
-        Body = body;
+       
     }
 }

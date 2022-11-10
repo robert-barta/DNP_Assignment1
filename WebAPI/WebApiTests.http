@@ -1,0 +1,13 @@
+﻿POST https://localhost:7121/auth/login
+Content-Type: application/json
+
+{ "Username" : "Robert", "Password" : "1234" }
+
+###
+
+GET https://localhost:7121/test/authorized
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiIyNzhjYWQ1ZC00ZGQ0LTRjNDktODEwZi1iMjY5NWNhZGRjOWQiLCJpYXQiOiIwOS8xMS8yMDIyIDEyLjU2LjEyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IlJvYmVydCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiU2VjdXJpdHlMZXZlbCI6IjUiLCJleHAiOjE2NjgwMDIxNzIsImlzcyI6IkpXVEF1dGhlbnRpY2F0aW9uU2VydmVyIiwiYXVkIjoiSldUU2VydmljZUJsYXpvcldhc21DbGllbnQifQ.gsjWSaYrINe18a2KY74nr8QUPlkBTl6JCIZedJLOfdtyHq57C5FMnglbwW3_i7b1Fz4z3IJ_n08nHfNi8H9ebw
+
+###
+
+GET https://localhost:7121/test/allowanon
