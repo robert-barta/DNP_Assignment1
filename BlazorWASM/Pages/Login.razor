@@ -1,8 +1,7 @@
 ﻿@page "/Login"
-@using global::Shared
+
 @using global::Shared.DTOs
 @using HttpClients.ClientInterfaces
-@inject NavigationManager navMgr
 @inject IUserService userService;
 <h3>Login</h3>
 
@@ -15,7 +14,7 @@
                 <input type="text" @bind="username" @bind:event="oninput"/>
             </div>
             <div class="field">
-                <label style="text-align: center">Password:</label>
+                <label>Password:</label>
                 <input type="password" @bind="password" @bind:event="oninput"/>
             </div>
             @if (!string.IsNullOrEmpty(errorLabel))
@@ -36,7 +35,7 @@
     </NotAuthorized>
     <Authorized>
         <div class="card">
-            <h3>Hello, @context.User.Identity.Name</h3>
+            <h3>Welcome, @context.User.Identity.Name</h3>
         </div>
     </Authorized>
 </AuthorizeView>
@@ -45,27 +44,21 @@
     private string username;
     private string password;
     private string errorLabel;
-    private UserCreationDto dto;
-    
+
     protected override void OnInitialized()
     {
         username = "";
         password = "";
         errorLabel = "";
-        dto = new UserCreationDto();
+       
     }
     
     private async Task LoginAsync()
     {
         errorLabel = "";
         try
-        {
-            dto.UserName = username;
-            dto.Password = password;
-            Console.WriteLine(username);
-            Console.WriteLine(password);
-            Console.WriteLine(dto.ToString());
-            await userService.LoginAsync(dto);
+        { 
+            await userService.LoginAsync(username, password);
         }
         catch (Exception e)
         {
@@ -78,20 +71,10 @@
     {
         try
         {
-
             await userService.CreateAsync(new UserCreationDto(username, password));
-
             username = "";
             password = "";
             errorLabel = "";
-
-    /*  UserCreationDto dto = new UserCreationDto(userName, password);
-            userName = "";
-            password = "";
-            errorLabel = "";
-            await userService.RegisterAsync(dto);
-            errorLabel = "User successfully registered!";
-        */
         }
         catch (Exception e)
         {

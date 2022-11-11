@@ -2,88 +2,31 @@
   "Users": [
     {
       "Id": 1,
-      "UserName": "Robert",
-      "Password": null,
-      "Role": null,
-      "SecurityLevel": 0
-    },
-    {
-      "Id": 2,
-      "UserName": "Lol",
-      "Password": null,
-      "Role": null,
-      "SecurityLevel": 0
-    },
-    {
-      "Id": 3,
-      "UserName": "Robdob",
-      "Password": null,
-      "Role": null,
-      "SecurityLevel": 0
-    },
-    {
-      "Id": 4,
-      "UserName": "Kamil",
-      "Password": null,
-      "Role": null,
-      "SecurityLevel": 0
-    },
-    {
-      "Id": 5,
-      "UserName": "Robert9",
-      "Password": null,
-      "Role": null,
-      "SecurityLevel": 0
+      "UserName": "JohnDoe",
+      "Password": "johnny"
     }
   ],
   "Posts": [
-    {
-      "Id": 1,
-      "Owner": {
-        "Id": 1,
-        "UserName": "Robert",
-        "Password": null,
-        "Role": null,
-        "SecurityLevel": 0
-      },
-      "Title": "How much do I have left? ",
-      "Body": "I have this weird pain in my heart every morning after waking up. My morning routine includes coffee, eggs, bacon, and a key of coke. I have increased the dosage of coke over the years as the effects were diminishing. But since the effects are not there, the consequences shouldn\u0027t be either, right? "
-    },
+    
     {
       "Id": 2,
       "Owner": {
         "Id": 1,
         "UserName": "Robert",
-        "Password": null,
-        "Role": null,
-        "SecurityLevel": 0
+        "Password": null
       },
       "Title": "Selling my laptop",
       "Body": "I am bored of it"
     },
     {
-      "Id": 3,
-      "Owner": {
-        "Id": 1,
-        "UserName": "Robert",
-        "Password": null,
-        "Role": null,
-        "SecurityLevel": 0
-      },
-      "Title": "Can I post with a question mark?",
-      "Body": "The body contains a question mark too?"
-    },
-    {
       "Id": 4,
       "Owner": {
         "Id": 1,
-        "UserName": "Robert",
-        "Password": null,
-        "Role": null,
-        "SecurityLevel": 0
+        "UserName": "JohnDoe",
+        "Password": "johnny"
       },
-      "Title": "Selling my phone",
-      "Body": "phonephone phone lalal phone opoenehn phonephone phone lalal phone phonephone phone lalal phone phonephone phone lalal phone phonephone phone lalal phone "
+      "Title": "Weird pain in my stomach?",
+      "Body": "It just hurts and my health insurance has expired ..so fake reddit.. please help me"
     }
   ]
 }

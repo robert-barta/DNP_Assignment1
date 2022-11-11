@@ -17,12 +17,14 @@ namespace WebAPI.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserLogic UserLogic;
+    private readonly IAuthService AuthService;
     private readonly IConfiguration config;
 
-    public UserController(IUserLogic userLogic, IConfiguration config)
+    public UserController(IUserLogic userLogic, IConfiguration config, IAuthService authService)
     {
         UserLogic = userLogic;
         this.config = config;
+        AuthService = authService;
     }
 
     [HttpPost]
@@ -31,6 +33,7 @@ public class UserController : ControllerBase
         try
         {
             User user = await UserLogic.CreateAsync(dto);
+            Console.WriteLine("ENDPOINT, creating" +user.UserName+user.Password);
             return Created($"/user/{user.Id}", user);
         }
         catch (Exception e)
@@ -63,9 +66,7 @@ public class UserController : ControllerBase
             new Claim(JwtRegisteredClaimNames.Sub, config["Jwt:Subject"]),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Role, user.Role),
-            new Claim("SecurityLevel", user.SecurityLevel.ToString())
+            new Claim(ClaimTypes.Name, user.UserName)
         };
         return claims.ToList();
     }
@@ -95,10 +96,11 @@ public class UserController : ControllerBase
     [HttpPost, Route("login")]
     public async Task<ActionResult> LoginAsync(UserCreationDto dto)
     {
+        
         try
         {
-            await UserLogic.LoginAsync(dto);
-            string token = GenerateJwt(new User(dto));
+            User user = await UserLogic.LoginAsync(dto);
+            string token = GenerateJwt(user);
             return Ok(token);
         }
         catch (Exception e)

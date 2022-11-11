@@ -22,10 +22,11 @@ public class UserLogic:IUserLogic
             throw new Exception("That username is already taken!");
         }
 
-        ValidateData(userToCreate);
+        
         User toCreate = new User
         {
-            UserName = userToCreate.UserName
+            UserName = userToCreate.UserName,
+            Password = userToCreate.Password
         };
 
         User created = await userDao.CreateAsync(toCreate);
@@ -37,17 +38,21 @@ public class UserLogic:IUserLogic
         return userDao.GetAsync(searchUserParametersDto);
     }
 
-    public async Task LoginAsync(UserCreationDto dto)
+    public async Task<User> LoginAsync(UserCreationDto dto)
     {
-        User? exsisting = await userDao.GetByUsernameAsync(dto.UserName);
-        if (exsisting == null)
+        User? existing = await userDao.GetByUsernameAsync(dto.UserName);
+        if (existing == null)
         {
             throw new Exception("Such user doesn't exist");
         }
-        Console.Write($"{exsisting.UserName} : {exsisting.Password}");
+
+        await ValidateData(dto);
+        
+        Console.Write($"{existing.UserName} : {existing.Password}");
+        return existing;
     }
 
-    private static void ValidateData(UserCreationDto userToCreate)
+    public Task ValidateData(UserCreationDto userToCreate)
     {
         string userName = userToCreate.UserName;
 
@@ -56,5 +61,7 @@ public class UserLogic:IUserLogic
 
         if (userName.Length > 15)
             throw new Exception("Username must be less than 16 characters!");
+        return Task.CompletedTask;
     }
+    
 }

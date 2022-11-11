@@ -1,11 +1,9 @@
 ﻿@page "/CreatePost"
 @using global::Shared.DTOs
 @using HttpClients.ClientInterfaces
-@using global::Shared
-@using System.ComponentModel
-@using System.Collections.ObjectModel
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components
 @inject IPostService PostService
-@inject IUserService UserService
 @inject NavigationManager navMgr
 @attribute [Authorize]
 <h3>CreatePost</h3>
@@ -18,19 +16,19 @@
         <h3>Create a Post</h3>
         <div class="form-group field">
             <label>Title:</label>
-            <input type="text" @bind="postTitle" @bind:event="oninput"/>
+            <input type="text" @bind="title" @bind:event="oninput"/>
         </div>
         <div class="form-group field">
             <label>Body: </label>
-            <input type="text" @bind="postBody" @bind:event="oninput"/>
+            <input type="text" @bind="body" @bind:event="oninput"/>
         </div>
 
         <div class="button-row">
-            @if (!string.IsNullOrEmpty(msg))
+            @if (!string.IsNullOrEmpty(resultMsg))
             {
-                <label style="color: red">@msg</label>
+                <label style="color: red">@resultMsg</label>
             }
-            <button @onclick="Create" @onmousedown=@(() => SetUsername(@context.User.Identity!.Name)) disabled="@(string.IsNullOrEmpty(title))" class="acceptbtn">Create</button>
+             <button @onclick="Create" disabled="@(string.IsNullOrEmpty(username) && string.IsNullOrEmpty(body) && string.IsNullOrEmpty(username))" class="acceptbtn">Post</button>
         </div>
     </div>
     </Authorized>
@@ -39,37 +37,47 @@
 
 @code {
 
-    private string username = "";
-    private string postTitle = "";
-    private string postBody = "";
-    private string msg = ""; 
-    private string color = "";
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; } = null!;
+
+    [Parameter]
+    public string Subreddit { get; set; }
+
     private string title = "";
     private string body = "";
-    
+    private string username = "";
+
+    private string resultMsg = "";
+    private string color = "";
+
+    private bool isLoggedIn;
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthState;
+        ClaimsPrincipal user = authState.User;
+        isLoggedIn = user.Identity != null;
+
+        if (!isLoggedIn) return;
+        username = user.Identity!.Name!;
+    }
 
     private async Task Create()
     {
-        msg = "";
+        resultMsg = "";
+
         try
         {
-            await PostService.CreateAsync(new PostCreationDto(title, body, username));
-            msg = "Post successfully created.";
+            await PostService.CreateAsync(new PostCreationDto(title,body,username));
+            resultMsg = "Post successfully created";
             color = "green";
-            title = "";
-            body = "";
+            navMgr.NavigateTo($"/ViewFullPost/{title}");
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            msg = e.Message;
+            resultMsg = e.Message;
             color = "red";
         }
-    
-    }
-
-    private void SetUsername(string? username)
-    {
-        this.username = username;
     }
 }

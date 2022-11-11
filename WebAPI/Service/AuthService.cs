@@ -12,8 +12,6 @@ public class AuthService :IAuthService
         {
             UserName = "Robert",
             Id = 1,
-            Role = "Admin",
-            SecurityLevel = 5,
             Password = "1234"
         }
     };
@@ -22,9 +20,9 @@ public class AuthService :IAuthService
     {
         User? existingUser = users.FirstOrDefault(u => u.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
 
-        if (existingUser==null)
+        if (existingUser!=null)
         {
-            throw new Exception("User not found");
+            throw new Exception("User already existing.");
         }
 
         if (!existingUser.Password.Equals(password))

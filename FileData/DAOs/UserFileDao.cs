@@ -15,19 +15,21 @@ public class UserFileDao:IUserDao
 
     public Task<User> CreateAsync(User user)
     {
+
         int userId = 1;
-        if (context.Users.Any())
-        {
-            userId = context.Users.Max(u => u.Id);
-            userId++;
-        }
-
-        user.Id = userId;
-
-        context.Users.Add(user);
-        context.SaveChanges();
-
-        return Task.FromResult(user);
+          if (context.Users.Any())
+          {
+              userId = context.Users.Max(u => u.Id);
+              userId++;
+          }
+  
+          user.Id = userId;
+  
+          context.Users.Add(user);
+          context.SaveChanges();
+  
+          return Task.FromResult(user);
+      
     }
 
     public Task<User?> GetByUsernameAsync(string userName)

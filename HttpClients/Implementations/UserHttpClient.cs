@@ -33,6 +33,8 @@ public class UserHttpClient :IUserService
         {
             PropertyNameCaseInsensitive = true
         })!;
+
+        
         return user;
     }
 
@@ -97,51 +99,27 @@ public class UserHttpClient :IUserService
     
     public async Task CreateAsync(UserCreationDto dto)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync("/User", dto );
+        HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:7121/User", dto );
         string responseContent = await response.Content.ReadAsStringAsync();
 
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception(responseContent);
         }
-
-        await LoginAsync(dto);
+        
     }
     
-   
 
-   /* public async Task LoginAsync(string username, string password)
-    {
-        {
-            UserLoginDto userLoginDto = new()
-            {
-                Username = username,
-                Password = password
-            };
-
-            string userAsJson = JsonSerializer.Serialize(userLoginDto);
-            StringContent content = new(userAsJson, Encoding.UTF8, "application/json");
-
-            HttpResponseMessage response = await client.PostAsync("/User/login", content);
-            string responseContent = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception(responseContent);
-            }
-
-            string token = responseContent;
-            Jwt = token;
-
-            ClaimsPrincipal principal = CreateClaimsPrincipal();
-
-            OnAuthStateChanged.Invoke(principal);
-        }
-    }
-*/
-   public async Task LoginAsync(UserCreationDto dto)
+    
+   public async Task LoginAsync(string username, string password)
    {
-       HttpResponseMessage response = await client.PostAsJsonAsync("/User/login", dto );
+       UserLoginDto dto = new UserLoginDto()
+       {
+           Username = username,
+           Password = password
+       };
+       
+       HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:7121/User/login", dto );
        string responseContent = await response.Content.ReadAsStringAsync();
 
        if (!response.IsSuccessStatusCode)

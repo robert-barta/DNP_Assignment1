@@ -69,14 +69,6 @@ public class PostLogic :IPostLogic
             throw new Exception("The fields cannot be empty!");
         }
 
-        if (title.Length is < 10 or > 100)
-        {
-            throw new Exception("The title has to be between 10 and 100 characters.");
-        }
-
-        if (body.Length is < 100 or > 1000)
-        {
-            throw new Exception("The body has to be between 100 and 1000 characters.");
-        }
+       
     }
 }
