@@ -39,17 +39,11 @@
 
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; } = null!;
-
-    [Parameter]
-    public string Subreddit { get; set; }
-
     private string title = "";
     private string body = "";
     private string username = "";
-
     private string resultMsg = "";
     private string color = "";
-
     private bool isLoggedIn;
 
     protected override async Task OnInitializedAsync()
