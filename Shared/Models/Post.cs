@@ -3,8 +3,8 @@
 public class Post
 {
     public int Id { get; set; }
-    public User Owner { get; set; }
-    public String Title { get; }
+    public User Owner { get;private set; }
+    public String Title { get; private set; }
     public String Body { get; set; }
 
     public Post(User owner, string title)
@@ -12,5 +12,10 @@ public class Post
         Owner = owner;
         Title = title;
        
+    }
+
+    private Post()
+    {
+        
     }
 }

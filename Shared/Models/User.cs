@@ -1,4 +1,5 @@
-﻿using Shared.DTOs;
+﻿using System.Text.Json.Serialization;
+using Shared.DTOs;
 
 namespace Shared;
 
@@ -9,6 +10,9 @@ public class User
     
     public string Password { get; set; }
     
+    
+    [JsonIgnore]
+    public ICollection<Post> Posts { get; set; }
 
     public User(UserCreationDto dto)
     {
